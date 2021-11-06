@@ -1,0 +1,78 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .toggle-container {
+        display: flex;
+        width: 500px;
+        padding: 1rem;
+        .toggle-button {
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 1rem 0;
+            border-radius: 0.8rem;
+            width: 50%;
+            border: 0;
+            outline: none;
+            background-color: rgb(245, 245, 245);
+            cursor: pointer;
+        }
+        .button-active {
+            background-color: $primary-color;
+            color: #fff;
+        }
+    }
+}
+   
+.login {
+    display: flex;
+    justify-content: center;
+    width: 500px;
+    padding: 1rem;
+    align-items: center;
+    flex-direction: column;
+    &-item {
+        margin-bottom: 1.5rem;
+        width: 100%;
+      label {
+          display: block;
+          font-size: 1.3rem;
+          margin-bottom: 0.6rem;
+          font-weight: 600;
+      }
+      input {
+          width: 100%;
+          padding: 1rem;
+          font-size: 1.4rem;
+          border-radius: 0.8rem;
+          border: 1px solid #ddd;
+          outline: none;
+      }
+    }
+    .login-button {
+        width: 100%;
+        font-size: 1.5rem;
+        color: #fff;
+        font-weight: 700;
+        border-radius: 0.6rem;
+        padding: 0.8rem 0.8rem;
+        background-color: $primary-color;
+        cursor: pointer;
+        margin: 0 auto;
+        margin-bottom: 0.8rem;
+        outline: none;
+        border: 0;
+    }
+    .no-account {
+        font-size: 1.2rem;
+    }
+}
+
+.login-item.img-upload {
+    display: flex;
+    justify-content: space-between;
+    .img-upload-item {
+        width: 45%;
+    }
+}

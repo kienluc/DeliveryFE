@@ -1,0 +1,125 @@
+.navbar {
+  @include flex(space-between, center);
+  max-width: 1100px;
+  margin: 0 auto;
+  .logo {
+      width: 200px;
+      &-img {
+          width: 100%;
+      }
+  }
+  .nav-items {
+    @include flex(stretch, center);
+      .nav-item {
+          @include flex(center, center);
+          font-size: 1.3rem;
+          font-weight: 600;
+          margin-right: 2.5rem;
+          line-height: 80px;
+          text-transform: uppercase;
+          border-bottom: 2px solid transparent;
+          position: relative;
+          transition: 0.3s;
+          .nav-link {
+              line-height: 80px;
+          }
+      }
+    
+      .down-icon {
+          font-size: 1.5rem;
+          font-weight: 500;
+          transition: 0.3s;
+      }
+      .nav-item:hover {
+        border-bottom-color: $primary-color;
+      }
+      .nav-item:hover .down-icon {
+        transform: rotate(-180deg);
+      }
+      .sub-menu {
+        flex-wrap: wrap;
+        background-color: #fff;
+        position: absolute;
+        padding: 2rem;
+        width: 700px;
+        line-height: 1.2;
+        top: 100px;
+        transition: 6s;
+        display: none;
+        z-index: 9999;
+      }
+      .nav-item:hover .sub-menu {
+          display: flex;
+          top: 62px;
+      }
+      .sub-menu-item {
+          padding: 2rem;
+          border: 1px solid $primary-color;
+          
+          &-link {
+              display: flex;
+              .sub-menu-item-logo {
+                width: 50px;
+                margin-right: 2rem;
+                img {
+                    width: 100%;
+                    border-radius: 50%;
+                }
+              }
+              .sub-menu-item-content {
+                flex: 1;
+              }
+              .sub-menu-item-description {
+                  font-size: 1.2rem;
+                  font-weight: 400;
+                  margin-top: 1.5rem;
+                  line-height: 1.5;
+              }
+          }
+      }
+      .sub-menu-item:not(:last-child) {
+          width: 50%;
+      }
+      .sub-menu-item:first-child {
+        border-right: 0;
+        }
+      .sub-menu-item:last-child {
+          width: 100%;
+          border-top: 0
+      }
+      
+  }
+  
+  .box-register {
+      color: #fff;
+      font-weight: 700;
+      padding: 1.2rem 1.5rem;
+      margin-right: 2rem;
+      text-transform: uppercase;
+      border-radius: 5px;
+      background-color: $primary-color;
+      cursor: pointer;
+  }
+  .search-bar {
+    @include flex(center, center);
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
+      flex: 1;
+      .search-input {
+          border: 0;
+          outline: none;
+          margin-right: 2rem;
+          width: 100%;
+      }
+      .search-button {
+          border: 0;
+          background-color: transparent;
+      }
+      .search-icon {
+          font-size: 2rem;
+          
+      }
+  }
+}

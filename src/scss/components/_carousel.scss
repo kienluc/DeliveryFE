@@ -1,0 +1,27 @@
+.carousel-img {
+    width: 100%;
+}
+.slick-dots {
+    display: flex !important;
+    justify-content: space-around;
+    top: 100%;
+    border: 1px solid #ddd;
+    border-top: 0;
+    padding-top: 1rem;
+    height: 70px;
+    li {    
+        width: 20%;
+        margin: 0;
+        p {
+            width: 80%;
+        }
+    }
+    li:not(:last-child) {
+        border-right: 1px solid #ddd;
+        height: 100%;
+    }
+    .slick-active {
+        color: $primary-color;
+        font-weight: 600;
+    }
+}
