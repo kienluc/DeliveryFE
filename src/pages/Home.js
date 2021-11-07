@@ -38,7 +38,7 @@ const Home = () => {
     }
     const getOrder = async () => {
         try {
-            const response = await API.get(`${endpoints['tracking']}${trackingId}/`, { headers: { 'Content-type': 'application/json'} })
+            const response = await API.get(`${endpoints['orders']}${trackingId}/`, { headers: { 'Content-type': 'application/json'} })
             setOrder(response.data)
             handleOpenModal()
         } catch (error) {

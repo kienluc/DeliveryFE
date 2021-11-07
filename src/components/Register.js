@@ -22,7 +22,6 @@ const Register = ({handleActive}) => {
     const [error, setError] = useState({})
 
     const handleChange = (event) => {
-        console.log(event.target.value)
         setInfo({
             ...info,
             [event.target.name]: event.target.value

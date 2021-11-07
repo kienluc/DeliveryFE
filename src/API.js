@@ -2,9 +2,14 @@ import axios from "axios";
 
 export let endpoints = {
     user: "users/",
+    shipperRegister: "shippers_info/",
     login: "o/token/",
     currentUser: "users/current-user/",
-    tracking: "orders/"
+    orders: "orders/",
+    category: "ProductCategories/",
+    service: "services/",
+    orderDetail: "order-detail/"
+
 };
 
 export default axios.create({
