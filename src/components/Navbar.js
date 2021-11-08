@@ -6,6 +6,7 @@ import { BiChevronDown, BiSearch } from "react-icons/bi";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/actions/authActions';
 import SearchBar from './SearchBar';
+
 const Navbar = ({onInputChange, onGetOrder}) => {
     const user = useSelector(state => state.userLogin.userInfo)
     const dispatch = useDispatch()
@@ -70,15 +71,22 @@ const Navbar = ({onInputChange, onGetOrder}) => {
                 <li className="nav-item">
                     <Link className="nav-link">Tin tức</Link>
                 </li>
-                <li className="nav-item">
-                    <Link className="nav-link">
-                    Bảng giá
-                    </Link>
-                </li>
+               {
+                   !user?.is_shipper &&  <li className="box-register">
+                                            <Link to="/order-post" className="nav-link">
+                                                Đăng bài giao hàng
+                                            </Link>
+                                        </li> 
+               }
            </ul>
+                {
+                    user?.is_shipper ? <div className="box-register">
+                    <Link to="/posts-list">Danh sách bài đăng</Link>
+                </div> :
                 <div className="box-register">
-                   <Link to="/order">Đặt giao hàng</Link>
-               </div>
+                    <Link to="/order">Đặt giao hàng</Link>
+                </div>
+                }
                {
                    !user?.username &&
                    <div className="box-register">

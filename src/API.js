@@ -8,7 +8,9 @@ export let endpoints = {
     orders: "orders/",
     category: "ProductCategories/",
     service: "services/",
-    orderDetail: "order-detail/"
+    orderDetail: "order-detail/",
+    post: "order_posts/",
+ 
 
 };
 

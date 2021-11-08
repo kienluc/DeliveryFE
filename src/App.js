@@ -4,6 +4,9 @@ import { login } from './redux/actions/authActions';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import OrderPage from './pages/OrderPage';
+import CreatePost from './pages/CreatePost';
+import PostsList from './pages/PostsList';
+import UserPostList from './pages/UserPostList';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -28,6 +31,9 @@ function App() {
       <div className="App">
         <Route  path="/login" component={LoginPage} />
         <Route  path="/order" component={OrderPage} />
+        <Route path="/order-post" component={CreatePost} />
+        <Route path="/posts-list" component={PostsList} />
+        <Route path="/my-posts" component={UserPostList} />
         <Route exact path="/" component={Home} />
       </div>
     </BrowserRouter>

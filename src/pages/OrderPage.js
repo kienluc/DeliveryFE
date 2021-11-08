@@ -18,7 +18,6 @@ const OrderPage = () => {
         const response2 = await API.get(endpoints["service"])
         setServices(response2.data.results)
         setCategories(response.data.results)
-     
     }
     const handleChange = (event) => {
         if (event.target.name === 'product_cate' || event.target.name === 'service_cate' || event.target.name === 'pay_method') {
