@@ -55,7 +55,7 @@ const ShipperRegister = () => {
                 })
                 console.log(res2)
             } catch (error) {
-                    console.log(error)
+                    console.log(error.response)
             }
             setError({})
         

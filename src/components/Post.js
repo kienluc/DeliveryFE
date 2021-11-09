@@ -54,7 +54,7 @@ const Post = ({post, user}) => {
                                 <div className="flex w-full bg-gray-200 p-4">
                                 <div className="flex items-center mr-4">
                                     <div className="w-[50px] rounded-full overflow-hidden mr-4">
-                                        <img src={avatar} alt="avatar" className="w-full" />
+                                        <img src={user.avatar} alt="avatar" className="w-full" />
                                     </div>
                                     <p className="font-medium text-xl">{user.username}</p>
                                 </div>
