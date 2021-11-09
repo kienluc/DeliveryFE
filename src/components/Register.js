@@ -51,7 +51,7 @@ const Register = ({handleActive}) => {
                 console.log(res.data)
             })
             .catch(err => {
-                console.log(err)
+                console.log(err.response)
             })
             setError({})
         }
@@ -68,11 +68,14 @@ const Register = ({handleActive}) => {
                 <label>Tên</label>
                 <input className="login-input" placeholder="Nhập tên" name="first_name"  onChange={handleChange}/>
             </div>
-            <select name="gender" onChange={handleChange} defaultValue="Male">
-                <option value="Male">Nam</option>
-                <option value="Female">Nữ</option>
-                <option value="Other">Khác</option>
-            </select>
+            <div className="login-item">
+                <label>Giới tính</label>
+                <select name="gender" onChange={handleChange} defaultValue="Male" className="w-full cursor-pointer text-xl border-[1px] border-gray-300 py-4 rounded-xl">
+                    <option value="Male">Nam</option>
+                    <option value="Female">Nữ</option>
+                    <option value="Other">Khác</option>
+                </select>
+            </div>
             <div className="login-item">
                 <label>Tài khoản</label>
                 <input className="login-input" placeholder="Nhập tài khoản" name="username" onChange={handleChange}/>

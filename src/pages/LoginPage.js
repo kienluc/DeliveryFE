@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import Navbar from '../components/Navbar'
 import Login from '../components/Login'
 import Register from '../components/Register'
 import ShipperRegister from '../components/ShipperRegister'
 const LoginPage = () => {
     const [active, setActive] = useState(2)
+    const user = useSelector(state => state.userLogin.userInfo)
+    const history = useHistory()
     const handleActive = (index) => {
         setActive(index)
     }
-
+    useEffect(() => {
+        if (Object.keys(user).length !== 0) {
+             history.goBack()
+        }
+        
+    }, [user])
     return (
         <>
             <Navbar />

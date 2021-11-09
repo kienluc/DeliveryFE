@@ -37,10 +37,10 @@ const Login = ({handleActive}) => {
             .then(res => {
                 dispatch(login(res.data))
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err.response))
             })
         .catch(err => {
-            console.log(err)
+            console.log(err.response)
         })
     }
     return (

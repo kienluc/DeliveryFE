@@ -1,15 +1,19 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import logo from "../assets/images/logo.png"
 import sublogo from "../assets/images/sublogo.png"
-import { BiChevronDown, BiSearch } from "react-icons/bi";
+import { BiChevronDown } from "react-icons/bi";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/actions/authActions';
 import SearchBar from './SearchBar';
 
 const Navbar = ({onInputChange, onGetOrder}) => {
     const user = useSelector(state => state.userLogin.userInfo)
+    const [toggle, setToggle] = useState(false)
     const dispatch = useDispatch()
+    const handleToggle = () => {
+        setToggle(!toggle)
+    }
     const handleLogout = () => {
         localStorage.removeItem('token')
         dispatch(logout())
@@ -21,7 +25,7 @@ const Navbar = ({onInputChange, onGetOrder}) => {
            </div>
            <ul className="nav-items">
                 <li className="nav-item">
-                    <Link className="nav-link">Trang chủ</Link>
+                    <Link to="/" className="nav-link">Trang chủ</Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link">Dịch vụ</Link>
@@ -96,9 +100,22 @@ const Navbar = ({onInputChange, onGetOrder}) => {
             <SearchBar onInputChange={onInputChange} onGetOrder={onGetOrder} />
            {
                user?.username && 
-               <div style={{ marginLeft: '15px'}}>
-                   <p style={{fontSize: '18px'}}>{user.username}, </p>
-                   <button className="box-register" style={{border: 'none'}} onClick={handleLogout}>Đăng xuất</button>
+               <div style={{ marginLeft: '15px'}} className="relative cursor-pointer" onClick={handleToggle}>
+                  <div className="flex items-center ml-2">
+                    <img src={user.avatar} alt="avatar" className="w-[35px] rounded-full" />
+                    <p className="mx-2 text-lg font-medium">{user.last_name} {user.first_name} </p>
+                    <BiChevronDown className="text-4xl" />
+                  </div>
+                   {
+                       toggle &&  
+                       <div className="absolute h-[300px] w-[300px] right-0 flex flex-col text-center p-4 shadow-md justify-between z-50 bg-gray-200">
+                           <Link to="/my-account" className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300">Thông tin cá nhân</Link>
+                           <Link to="/my-posts" className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300">Bài đăng</Link>
+                           <Link to="/my-orders" className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300">Đơn hàng</Link>
+                           <button className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300" onClick={handleLogout}>Đăng xuất</button>
+                           <p className="text-2xl font-medium p-2">Username: {user?.username}</p>
+                       </div>
+                   }
                </div>
            }
         </div>

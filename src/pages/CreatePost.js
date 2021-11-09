@@ -12,8 +12,8 @@ const Post = () => {
     const getServicesAndCategories = async () => {
         const response = await API.get(endpoints["category"])
         const response2 = await API.get(endpoints["service"])
-        setServices(response2.data.results)
         setCategories(response.data.results)
+        setServices(response2.data.results)
     }
     const handleChange = (event) => {
         if (event.target.name === 'product_cate' || event.target.name === 'service_cate' || event.target.name === 'pay_method') {
@@ -77,7 +77,7 @@ const Post = () => {
                 </div>
                 <div className="order-item">
                     <label>Loại hàng hóa</label>
-                    <select className="payment" name="product_cate" onChange={handleChange}>
+                    <select className="payment" name="product_cate" defaultValue="0" onChange={handleChange}>
                     {
                         categories.map(cate => (<option value={cate.id}>{cate.name}</option>))
                     }
@@ -85,7 +85,7 @@ const Post = () => {
                 </div>
                 <div className="order-item">
                     <label>Loại dịch vụ</label>
-                    <select className="payment" name="service_cate" onChange={handleChange}>
+                    <select className="payment" name="service_cate" defaultValue="0" onChange={handleChange}>
                     {
                         services.map(ser => (<option value={ser.id}>{ser.name}</option>))
                     }   

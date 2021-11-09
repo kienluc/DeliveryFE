@@ -31,12 +31,16 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Route  path="/login" component={LoginPage} />
-        <Route  path="/order" component={OrderPage} />
-        <Route path="/order-post" component={CreatePost} />
-        <Route path="/posts-list" component={PostsList} />
+        <ProtectedRoute  path="/order" component={OrderPage} />
+        <ProtectedRoute path="/order-post" component={CreatePost} />
+        <ProtectedRoute path="/posts-list" component={PostsList} />
         <ProtectedRoute path="/my-posts" component={UserPostList} />
         <ProtectedRoute path="/my-orders" component={OrderList} />
         <Route exact path="/" component={Home} />
+        <Route path='/admin' component={() => { 
+     window.location.href = 'http://127.0.0.1:8000/admin'; 
+     return null;
+}}/>
       </div>
     </BrowserRouter>
   );

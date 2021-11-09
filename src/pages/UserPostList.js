@@ -18,7 +18,7 @@ const UserPostList = () => {
             })
             const arr = response.data.results.filter(post => post.creator.id === currentUser.id)
             setPosts(arr)
-            console.log(response.data)
+            
         } catch (error) {
             console.log(error.response)
         }
