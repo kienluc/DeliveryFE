@@ -10,7 +10,7 @@ export let endpoints = {
     service: "services/",
     orderDetail: "order-detail/",
     post: "order_posts/",
- 
+    auction: "auctions/"
 
 };
 

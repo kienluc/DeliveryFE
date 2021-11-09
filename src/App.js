@@ -7,9 +7,10 @@ import OrderPage from './pages/OrderPage';
 import CreatePost from './pages/CreatePost';
 import PostsList from './pages/PostsList';
 import UserPostList from './pages/UserPostList';
+import OrderList from './pages/OrderList';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
+import ProtectedRoute from './routes/ProtectedRoute';
 
 function App() {
   const dispatch = useDispatch()
@@ -33,7 +34,8 @@ function App() {
         <Route  path="/order" component={OrderPage} />
         <Route path="/order-post" component={CreatePost} />
         <Route path="/posts-list" component={PostsList} />
-        <Route path="/my-posts" component={UserPostList} />
+        <ProtectedRoute path="/my-posts" component={UserPostList} />
+        <ProtectedRoute path="/my-orders" component={OrderList} />
         <Route exact path="/" component={Home} />
       </div>
     </BrowserRouter>
