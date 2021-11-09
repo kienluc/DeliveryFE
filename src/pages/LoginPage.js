@@ -13,7 +13,7 @@ const LoginPage = () => {
         setActive(index)
     }
     useEffect(() => {
-        if (Object.keys(user).length !== 0) {
+        if (Object.keys(user).length !== 0 && user) {
              history.goBack()
         }
         
