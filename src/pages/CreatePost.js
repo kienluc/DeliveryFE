@@ -77,7 +77,7 @@ const Post = () => {
                 </div>
                 <div className="order-item">
                     <label>Loại hàng hóa</label>
-                    <select className="payment" name="product_cate" defaultValue="0" onChange={handleChange}>
+                    <select className="payment" name="product_cate" defaultValue="1" onChange={handleChange}>
                     {
                         categories.map(cate => (<option value={cate.id}>{cate.name}</option>))
                     }
@@ -85,7 +85,7 @@ const Post = () => {
                 </div>
                 <div className="order-item">
                     <label>Loại dịch vụ</label>
-                    <select className="payment" name="service_cate" defaultValue="0" onChange={handleChange}>
+                    <select className="payment" name="service_cate" defaultValue="1" onChange={handleChange}>
                     {
                         services.map(ser => (<option value={ser.id}>{ser.name}</option>))
                     }   

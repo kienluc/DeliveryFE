@@ -8,6 +8,7 @@ import CreatePost from './pages/CreatePost';
 import PostsList from './pages/PostsList';
 import UserPostList from './pages/UserPostList';
 import OrderList from './pages/OrderList';
+import Profile from './pages/Profile';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ProtectedRoute from './routes/ProtectedRoute';
@@ -36,6 +37,7 @@ function App() {
         <ProtectedRoute path="/posts-list" component={PostsList} />
         <ProtectedRoute path="/my-posts" component={UserPostList} />
         <ProtectedRoute path="/my-orders" component={OrderList} />
+        <ProtectedRoute path="/my-account" component={Profile} />
         <Route exact path="/" component={Home} />
         <Route path='/admin' component={() => { 
      window.location.href = 'http://127.0.0.1:8000/admin'; 

@@ -4,10 +4,10 @@ import API, { endpoints } from '../API'
 const Post = ({post, user}) => {
     const [price, setPrice] = useState(null)
     const [auctions, setAuctions] = useState([])
-    const [selectedAuction, setSelectedAuction] = useState({})
+    const [selectedPost, setSelectedPost] = useState({})
     const [toggle, setToggle] = useState(false)
     const [info, setInfo] = useState({})
-
+    const [edit, setEdit] = useState("")
     const createAuction = async () => {
         try {
             const token = localStorage.getItem('token')
@@ -26,10 +26,19 @@ const Post = ({post, user}) => {
                 response.data
             ])
         } catch (error) {
-            console.log(error)
+            console.log(error.response)
         }
     }
+    const handleEditModal = (post) => {
+        if (post.creator) {
+            setEdit('post')
 
+        } else {
+            setEdit('auction')
+        }
+        setSelectedPost(post)
+        handleToggle()
+    }
     const handleToggle = () => {
         setToggle(!toggle)
     }
@@ -44,10 +53,7 @@ const Post = ({post, user}) => {
         
     }
 
-    const handleSelect = (auction) => {
-        setSelectedAuction(auction)
-        handleToggle()
-    }
+   
 
     const handleUpdate = async () => {
         try {
@@ -56,7 +62,7 @@ const Post = ({post, user}) => {
             for (let k in info) {
                 data.append(k, info[k])
             }
-            const response = await API.patch(`${endpoints['auction']}${selectedAuction.id}/`, data , {
+            const response = await API.patch(`${endpoints['auction']}${selectedPost.id}/`, data , {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "Authorization": `Bearer ${token}`
@@ -82,6 +88,41 @@ const Post = ({post, user}) => {
             console.log(response)
             setInfo({})
             setAuctions(auctions.filter(auc => auc.id !== auct.id))
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+    const handleUserUpdate = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            const data = new FormData()
+            for (let k in info) {
+                data.append(k, info[k])
+            }
+            const response = await API.patch(`${endpoints['post']}${selectedPost.id}/`,data, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            console.log(response)
+            handleToggle()
+            setInfo({})
+            
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+    const handleUserDelete = async (post) => {
+        try {
+            const token = localStorage.getItem('token')
+            const response = await API.delete(`${endpoints['post']}${post.id}/`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            console.log(response)
+            setInfo({})
+         
         } catch (error) {
             console.log(error.response)
         }
@@ -138,16 +179,27 @@ const Post = ({post, user}) => {
     }
     useEffect(() => {
         getPostAuction()
+        console.log(post)
     }, [])
     return (
         <div  className=" mb-4">
-                            <div key={post.id} className="border-[1px] border-gray-300 p-2 mb-4 rounded-lg mr-4">
-                                <p className="text-xl font-semibold">Người tạo: <span className="text-xl font-normal">{post.creator.username}</span></p>
-                                <p className="text-xl font-semibold">Địa chỉ lấy hàng: {post.pickup_address}</p>
-                                <p className="text-xl font-semibold">Địa chỉ giao hàng: {post.ship_address}</p>
-                                <p className="text-xl font-semibold">Loại hàng: {post.product_cate?.name}</p>
-                                <p className="text-xl font-semibold">Dịch vụ: {post.service_cate?.name}</p>
-                                <p className="text-xl font-semibold">Nội dung: {post.content}</p>
+                            <div key={post.id} className="border-[1px] border-gray-300 p-2 mb-4 rounded-lg mr-4 flex justify-between">
+                               <div>
+                                    <p className="text-xl font-semibold">Người tạo: <span className="text-xl font-normal">{post.creator.username}</span></p>
+                                    <p className="text-xl font-semibold">Địa chỉ lấy hàng: {post.pickup_address}</p>
+                                    <p className="text-xl font-semibold">Địa chỉ giao hàng: {post.ship_address}</p>
+                                    <p className="text-xl font-semibold">Loại hàng: {post.product_cate?.name}</p>
+                                    <p className="text-xl font-semibold">Dịch vụ: {post.service_cate?.name}</p>
+                                    <p className="text-xl font-semibold">Nội dung: {post.content}</p>
+                               </div>
+                              {
+                                  !user.is_shipper &&   <>
+                                                             <div>
+                                                                <button className="bg-[#f26522] p-2 text-white font-medium text-2xl mr-4" onClick={() => handleEditModal(post)}>Sửa</button>
+                                                                <button className="bg-[#f26522] p-2 text-white font-medium text-2xl" onClick={() => handleUserDelete(post)}>Xóa</button>
+                                                            </div>
+                                                        </>
+                              }
                             </div>
                             {user?.is_shipper ? <p className="text-2xl font-semibold">Nhập giá</p> : <p className="text-2xl font-semibold">Danh sách đấu giá</p>}
                             {user?.is_shipper ? <>
@@ -161,7 +213,7 @@ const Post = ({post, user}) => {
                                                                 <p>{au.updated_date}</p>
                                                             </div>
                                                             <div>
-                                                                <button className="bg-[#f26522] p-2 text-white font-medium mr-4" onClick={() => handleSelect(au)}>Sửa</button>
+                                                                <button className="bg-[#f26522] p-2 text-white font-medium mr-4" onClick={() => handleEditModal(au)}>Sửa</button>
                                                                 <button className="bg-[#f26522] p-2 text-white font-medium" onClick={() => handleDelete(au)}>xóa</button>
                                                             </div>
                                                         </div>))
@@ -203,18 +255,44 @@ const Post = ({post, user}) => {
                                                 </div>
                                             }
                                          {
-                                             toggle &&    <>
+                                             (toggle && edit === 'auction') &&    <>
                                              <div className="z-[52] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-[1px] rounded-lg bg-white p-4 w-[600px]">
-                                                 <h1 className="text-2xl text-center font-bold">Cập nhật đơn hàng</h1>
+                                                 <h1 className="text-2xl text-center font-bold">Cập nhật đấu giá</h1>
                                                  <div className="text-center my-3">
                                                                          <div>
                                                                             <label className="text-xl font-semibold my-4">Phí ship</label>
-                                                                            <input className="text-xl border-[1px] border-black p-4" defaultValue={selectedAuction.ship_cost}  name="ship_cost" onChange={handleChange} />
+                                                                            <input className="text-xl border-[1px] border-black p-4" defaultValue={selectedPost.ship_cost}  name="ship_cost" onChange={handleChange} />
                                                                          </div>
                                                  </div>
                                                  <div className="flex justify-around mt-8">
                                                      <button className="p-4 text-xl font-medium text-[#f26522] border-2 border-[#f26522]" onClick={handleToggle}>Hủy</button>
                                                      <button className="p-4 text-xl font-medium text-white bg-[#f26522]" onClick={handleUpdate}>Xác nhận</button>
+                                                 </div>
+                                             </div>
+                                             <div className="fixed top-0 left-0 w-full h-full z-30 bg-black opacity-75"></div>
+                                         </>
+                                         }
+                                         {
+                                             (toggle && edit === 'post') &&    <>
+                                             <div className="z-[52] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-[1px] rounded-lg bg-white p-4 w-[600px]">
+                                                <h1 className="text-2xl text-center font-bold">Cập nhật bài đăng</h1>
+                                                <div className="flex justify-around">
+                                                    <div className="flex flex-col">
+                                                        <label className="text-xl font-semibold my-4">Địa chỉ lấy hàng</label>
+                                                        <input className="text-xl border-[1px] border-black p-4" defaultValue={selectedPost.pickup_address} name="pickup_address" onChange={handleChange} />
+                                                    </div>
+                                                    <div className="flex flex-col">
+                                                        <label className="text-xl font-semibold my-4">Địa chỉ giao hàng</label>
+                                                        <input className="text-xl border-[1px] border-black p-4" defaultValue={selectedPost.ship_address} name="ship_address" onChange={handleChange} />
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                        <label className="text-xl font-semibold my-4">Nội dung</label>
+                                                        <input className="text-xl border-[1px] border-black p-4" defaultValue={selectedPost.content} name="content" onChange={handleChange} />
+                                                    </div>
+                                                 <div className="flex justify-around mt-8">
+                                                     <button className="p-4 text-xl font-medium text-[#f26522] border-2 border-[#f26522]" onClick={handleToggle}>Hủy</button>
+                                                     <button className="p-4 text-xl font-medium text-white bg-[#f26522]" onClick={handleUserUpdate}>Xác nhận</button>
                                                  </div>
                                              </div>
                                              <div className="fixed top-0 left-0 w-full h-full z-30 bg-black opacity-75"></div>

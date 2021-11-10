@@ -1,15 +1,17 @@
 
-
 import React, { useEffect, useState } from 'react'
 import API, {endpoints} from '../API'
 import { useSelector } from 'react-redux'
 import Navbar from '../components/Navbar'
+import StarRatings from 'react-star-ratings';
 const OrderList = () => {
     const currentUser = useSelector(state => state.userLogin.userInfo)
     const [orders, setOrders] = useState([])
     const [toggle, setToggle] = useState(false)
+    const [modal, setModal] = useState("")
     const [selectedOrder, setSelectedOrder] = useState({})
     const [info, setInfo] = useState({})
+    const [rating, setRating] = useState(5);
     const handleToggle = () => {
         setToggle(!toggle)
     }
@@ -44,6 +46,9 @@ const OrderList = () => {
     const handleSelect = (order) => {
         setSelectedOrder(order)
         handleToggle()
+    }
+    const changeRating = (newRating) => {
+        setRating(newRating)
     }
     const UserUpdate = async () => {
         try {
@@ -85,6 +90,30 @@ const OrderList = () => {
             console.log(error.response)
         }
     }
+    const handleRatingModal = (order) => {
+        setSelectedOrder(order)
+        setModal('rating')
+        handleToggle()
+    }
+    const handleRating = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            const data = new FormData()
+            data.append('order_id', selectedOrder.id)
+            data.append('content', 'ok')
+            data.append('rate', rating)
+            const response = await API.post(`${endpoints['rating']}`, data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            console.log(response)
+            handleToggle()
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
     useEffect(() => {
         getOrders()
     }, [])
@@ -106,6 +135,7 @@ const OrderList = () => {
                             <th className="w-[80px] text-xl border-[1px] p-2 border-black">Tổng</th>
                             <th className="w-[80px] text-xl border-[1px] p-2 border-black">Thanh toán</th>
                             <th className="w-[80px] text-xl border-[1px] p-2 border-black">Trạng thái</th>
+                            <th className="w-[80px] text-xl border-[1px] p-2 border-black">Shipper</th>
                             <th className="w-[80px] text-xl border-[1px] p-2 border-black"></th>
                         </tr>
                     </thead>
@@ -122,7 +152,13 @@ const OrderList = () => {
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.total_price}</td>
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.pay_method}</td>
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.status}</td>
-                                <td className="text-center text-xl border-[1px] p-2 py-4"><button onClick={() => handleSelect(order)}>Cập nhật</button></td>
+                                <td className="text-center text-xl border-[1px] p-2 py-4">{order.shipper.username}</td>
+                                {
+                                    order.status === 'ĐÃ GIAO' ? 
+                                    <td className="text-center text-xl border-[1px] p-2 py-4"><button onClick={() => handleRatingModal(order)}>Đánh giá</button></td>
+                                     :
+                                    <td className="text-center text-xl border-[1px] p-2 py-4"><button onClick={() => handleSelect(order)}>Cập nhật</button></td>
+                                }
                             </tr>
                            ))
                        }
@@ -130,7 +166,7 @@ const OrderList = () => {
                 </table>
             </div>
           {
-              (toggle && !currentUser.is_shipper) && <>
+              ((toggle && !currentUser.is_shipper) && modal !== 'rating') && <>
                             <div className="z-[52] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-[1px] rounded-lg bg-white p-4 w-[600px]">
                                 <h1 className="text-2xl text-center font-bold">Cập nhật đơn hàng</h1>
                                 <div className="flex justify-around">
@@ -166,6 +202,27 @@ const OrderList = () => {
                     <div className="flex justify-around mt-8">
                         <button className="p-4 text-xl font-medium text-[#f26522] border-2 border-[#f26522]" onClick={handleToggle}>Hủy</button>
                         <button className="p-4 text-xl font-medium text-white bg-[#f26522]" onClick={ShipperUpdate}>Xác nhận</button>
+                    </div>
+                </div>
+                <div className="fixed top-0 left-0 w-full h-full z-30 bg-black opacity-75"></div>
+             </>
+          }
+             {
+              ((toggle && !currentUser.is_shipper) && modal === 'rating') && <>
+                <div className="z-[52] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-[1px] rounded-lg bg-white p-4 w-[600px]">
+                    <h1 className="text-2xl text-center font-bold">Đánh giá</h1>
+                    <StarRatings
+                        changeRating={changeRating}
+                        starRatedColor="#F7DD7C"
+                        numberOfStars={5}
+                        name='rating'
+                        rating={rating}
+                        starDimension="25px"
+                        starSpacing="2px"
+                    />
+                    <div className="flex justify-around mt-8">
+                        <button className="p-4 text-xl font-medium text-[#f26522] border-2 border-[#f26522]" onClick={handleToggle}>Hủy</button>
+                        <button className="p-4 text-xl font-medium text-white bg-[#f26522]" onClick={handleRating}>Xác nhận</button>
                     </div>
                 </div>
                 <div className="fixed top-0 left-0 w-full h-full z-30 bg-black opacity-75"></div>
