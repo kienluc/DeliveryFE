@@ -7,6 +7,7 @@ const Post = () => {
     const [services, setServices] = useState([])
     const [categories, setCategories] = useState([])
     const [post, setPost] = useState({})
+    const [isSuccess, setIsSuccess] = useState(null)
     const currentUser = useSelector(state => state.userLogin.userInfo)
 
     const getServicesAndCategories = async () => {
@@ -47,8 +48,9 @@ const Post = () => {
                     "Authorization": `Bearer ${token}`
                   },
             })
-           console.log(response) 
+            setIsSuccess(true)
         } catch (error) {
+            setIsSuccess(false)
             console.log(error.response)
         }
     }
@@ -59,6 +61,13 @@ const Post = () => {
         <div className="order-page">
              <Navbar />
             <form className="order-form" onSubmit={handleSubmit}>
+                {
+                    isSuccess === true && <div className="bg-green-600 w-full text-white font-medium text-2xl text-center mb-1 py-2 rounded-md ">Tạo bài đăng thành công</div> 
+                    
+                }
+                {
+                    isSuccess === false && <div className="bg-red-500 w-full text-white font-medium text-2xl text-center mb-1 py-2 rounded-md ">Có lỗi xảy ra</div>
+                }
                 <div className="order-item">
                     <label>Tên khách hàng</label>
                     <input className="order-input" placeholder="Nhập họ tên" name="customer_received"  onChange={handleChange}/>
@@ -77,18 +86,18 @@ const Post = () => {
                 </div>
                 <div className="order-item">
                     <label>Loại hàng hóa</label>
-                    <select className="payment" name="product_cate" defaultValue="1" onChange={handleChange}>
-                    {
-                        categories.map(cate => (<option value={cate.id}>{cate.name}</option>))
-                    }
+                    <select name="product_cate" onChange={handleChange} defaultValue="1" className="w-full cursor-pointer text-xl border-[1px] border-gray-300 py-4 rounded-xl" required>
+                        {
+                            categories.map(cate => (<option value={cate.id}>{cate.name}</option>))
+                        }
                     </select>
                 </div>
                 <div className="order-item">
-                    <label>Loại dịch vụ</label>
-                    <select className="payment" name="service_cate" defaultValue="1" onChange={handleChange}>
-                    {
-                        services.map(ser => (<option value={ser.id}>{ser.name}</option>))
-                    }   
+                    <label>Dịch vụ</label>
+                    <select name="service_cate" onChange={handleChange} defaultValue="1" className="w-full cursor-pointer text-xl border-[1px] border-gray-300 py-4 rounded-xl" required>
+                        {
+                            services.map(ser => (<option value={ser.id}>{ser.name}</option>))
+                        }
                     </select>
                 </div>
                 <div className="order-item">

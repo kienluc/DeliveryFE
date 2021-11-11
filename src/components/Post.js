@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import API, { endpoints } from '../API'
 
-const Post = ({post, user}) => {
+const Post = ({post, user, onFilter, onUpdate}) => {
     const [price, setPrice] = useState(null)
     const [auctions, setAuctions] = useState([])
     const [selectedPost, setSelectedPost] = useState({})
@@ -68,7 +68,7 @@ const Post = ({post, user}) => {
                     "Authorization": `Bearer ${token}`
                 }
             })
-            console.log(response)
+         
             handleToggle()
             setInfo({})
             setAuctions(auctions.map(auc => auc.id === response.data.id ? response.data : auc))
@@ -85,7 +85,7 @@ const Post = ({post, user}) => {
                     "Authorization": `Bearer ${token}`
                 }
             })
-            console.log(response)
+           
             setInfo({})
             setAuctions(auctions.filter(auc => auc.id !== auct.id))
         } catch (error) {
@@ -105,11 +105,12 @@ const Post = ({post, user}) => {
                 }
             })
             console.log(response)
+            onUpdate(response.data)
             handleToggle()
             setInfo({})
             
         } catch (error) {
-            console.log(error.response)
+            console.log(error)
         }
     }
     const handleUserDelete = async (post) => {
@@ -120,7 +121,7 @@ const Post = ({post, user}) => {
                     "Authorization": `Bearer ${token}`
                 }
             })
-            console.log(response)
+  
             setInfo({})
          
         } catch (error) {
@@ -137,7 +138,7 @@ const Post = ({post, user}) => {
                   },
             })
             setAuctions(response.data)
-            console.log(response.data)
+       
         } catch (error) {
             console.log(error.response)
         }
@@ -145,20 +146,21 @@ const Post = ({post, user}) => {
     const createOrder = async (auction) => {
         const token = localStorage.getItem('token')
         try {
-           await API.post(`${endpoints["auction"]}${auction}/confirm-auction/`, {}, {
+           await API.post(`${endpoints["auction"]}${auction}/confirm-auction/`, {
                 headers: {
                     "Content-type": "multipart/form-data",
                     "Authorization": `Bearer ${token}`
                 }
             })
             try {
-                await API.post(`${endpoints["post"]}${post.id}/create-order/`, {}, {
+                await API.post(`${endpoints["post"]}${post.id}/create-order/`, {
                     headers: {
                         "Content-type": "multipart/form-data",
                         "Authorization": `Bearer ${token}`
                     }
                 })
-            
+                alert('Tạo đơn hàng thành công !')
+                onFilter(post)
             } catch (error) {
                 console.log(error)
             }
@@ -182,15 +184,15 @@ const Post = ({post, user}) => {
         console.log(post)
     }, [])
     return (
-        <div  className=" mb-4">
+        <div  className=" mb-8 border-[1px] border-gray-300 border-black p-4 rounded-lg">
                             <div key={post.id} className="border-[1px] border-gray-300 p-2 mb-4 rounded-lg mr-4 flex justify-between">
                                <div>
-                                    <p className="text-xl font-semibold">Người tạo: <span className="text-xl font-normal">{post.creator.username}</span></p>
-                                    <p className="text-xl font-semibold">Địa chỉ lấy hàng: {post.pickup_address}</p>
-                                    <p className="text-xl font-semibold">Địa chỉ giao hàng: {post.ship_address}</p>
-                                    <p className="text-xl font-semibold">Loại hàng: {post.product_cate?.name}</p>
-                                    <p className="text-xl font-semibold">Dịch vụ: {post.service_cate?.name}</p>
-                                    <p className="text-xl font-semibold">Nội dung: {post.content}</p>
+                                    <p className="text-2xl font-semibold mb-4">Người tạo: <span className="text-2xl font-normal">{post.creator.username}</span></p>
+                                    <p className="text-2xl font-semibold mb-4">Địa chỉ lấy hàng: {post.pickup_address}</p>
+                                    <p className="text-2xl font-semibold mb-4">Địa chỉ giao hàng: {post.ship_address}</p>
+                                    <p className="text-2xl font-semibold mb-4">Loại hàng: {post.product_cate?.name}</p>
+                                    <p className="text-2xl font-semibold mb-4">Dịch vụ: {post.service_cate?.name}</p>
+                                    <p className="text-2xl font-semibold mb-4">Nội dung: {post.content}</p>
                                </div>
                               {
                                   !user.is_shipper &&   <>
@@ -201,16 +203,21 @@ const Post = ({post, user}) => {
                                                         </>
                               }
                             </div>
-                            {user?.is_shipper ? <p className="text-2xl font-semibold">Nhập giá</p> : <p className="text-2xl font-semibold">Danh sách đấu giá</p>}
+                            {user?.is_shipper ? <p className="text-2xl font-semibold mb-4">Nhập giá</p> : <p className="text-2xl font-semibold">Danh sách đấu giá</p>}
                             {user?.is_shipper ? <>
                                                     <div>
                                                     {
                                                         auctions.filter(au => au.shipper.id === user.id).map(au => (
                                                         <div className="flex items-center justify-around text-xl">
-                                                            <div>
-                                                                <p>{au.shipper.username}</p>
-                                                                <p>{au.ship_cost}</p>
-                                                                <p>{au.updated_date}</p>
+                                                            <div className="flex">
+                                                                <div className="w-[35px] overflow-hidden rounded-[50%] mr-4">
+                                                                    <img src={user.avatar} alt='avatar' />
+                                                                </div>
+                                                               <div>
+                                                                     <p>Tên shipper: {au.shipper.username}</p>
+                                                                    <p>Giá: {au.ship_cost}</p>
+                                                                    <p>Ngày: {new Date(au.updated_date).toLocaleString()}</p>
+                                                               </div>
                                                             </div>
                                                             <div>
                                                                 <button className="bg-[#f26522] p-2 text-white font-medium mr-4" onClick={() => handleEditModal(au)}>Sửa</button>
@@ -221,7 +228,7 @@ const Post = ({post, user}) => {
                                                     </div>
                                                    {
                                                        auctions.filter(au => au.shipper.id === user.id).length !== 0 ?
-                                                       <p className="text-xl text-center font-medium">ban da dau gia</p>
+                                                       <p className="text-2xl text-center font-medium">Bạn đã đấu giá</p>
                                                        :
                                                        <>
                                                             <div className="flex w-full bg-gray-200 p-4">
@@ -241,11 +248,17 @@ const Post = ({post, user}) => {
                                                 <div>
                                                     {
                                                         auctions.map(au => (
+
                                                         <div className="flex items-center justify-around text-xl">
-                                                            <div>
-                                                                <p>{au.shipper.username}</p>
-                                                                <p>{au.ship_cost}</p>
-                                                                <p>{au.updated_date}</p>
+                                                            <div className="flex">
+                                                                <div className="w-[35px] overflow-hidden rounded-full  mr-4">
+                                                                    <img src={`http://127.0.0.1:8000${au.shipper.avatar}`} alt='avatar' />
+                                                                </div>
+                                                                <div>
+                                                                    <p>{au.shipper.username}</p>
+                                                                    <p>{au.ship_cost}</p>
+                                                                    <p>{new Date(au.updated_date).toLocaleString()}</p>
+                                                                </div>
                                                             </div>
                                                             <div>
                                                                 <button className="bg-[#f26522] p-2 text-white font-medium" onClick={() => createOrder(au.id)}>Chọn</button>

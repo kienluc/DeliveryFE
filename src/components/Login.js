@@ -9,6 +9,8 @@ const Login = ({handleActive}) => {
         username: '',
         password: ''
     })
+    const [isSuccess, setIsSuccess] = useState(null)
+    const [error, setError] = useState([])
     const history = useHistory()
     const dispatch = useDispatch()
     const handleChange = (event) => {
@@ -47,11 +49,11 @@ const Login = ({handleActive}) => {
         <form className="login" onSubmit={handleSubmit}>
             <div className="login-item">
                 <label>Tài khoản</label>
-                <input className="login-input" placeholder="Nhập tài khoản" name="username" onChange={handleChange}/>
+                <input className="login-input" placeholder="Nhập tài khoản" name="username" onChange={handleChange} required/>
             </div>
             <div className="login-item">
                 <label>Mật khẩu</label>
-                <input className="login-input" placeholder="Nhập mật khẩu" type="password" name="password" onChange={handleChange}/>
+                <input className="login-input" placeholder="Nhập mật khẩu" type="password" name="password" onChange={handleChange} required/>
             </div>
             <button className="login-button" type="submit">Đăng nhập</button>
             <p className="no-account">Bạn chưa có tài khoản ? <span style={{color: '#f26522', fontWeight: 700, cursor: 'pointer'}} onClick={() => handleActive(1)}>Đăng kí ngay</span></p>

@@ -9,6 +9,7 @@ const OrderList = () => {
     const [orders, setOrders] = useState([])
     const [toggle, setToggle] = useState(false)
     const [modal, setModal] = useState("")
+    const [error, setError] = useState(null)
     const [selectedOrder, setSelectedOrder] = useState({})
     const [info, setInfo] = useState({})
     const [rating, setRating] = useState(5);
@@ -108,10 +109,10 @@ const OrderList = () => {
                     "Authorization": `Bearer ${token}`
                 }
             })
-            console.log(response)
+           
             handleToggle()
         } catch (error) {
-            console.log(error.response)
+            setError(error.response.data[0])
         }
     }
     useEffect(() => {
@@ -154,10 +155,16 @@ const OrderList = () => {
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.status}</td>
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.shipper.username}</td>
                                 {
-                                    order.status === 'ĐÃ GIAO' ? 
-                                    <td className="text-center text-xl border-[1px] p-2 py-4"><button onClick={() => handleRatingModal(order)}>Đánh giá</button></td>
-                                     :
+                                    (order.status === 'ĐÃ GIAO' &&  !currentUser.is_shipper) &&
+                                    <td className="text-center text-xl border-[1px] p-2 py-4"><button onClick={() => handleRatingModal(order)}>Đánh giá</button></td>                                    
+                                }
+                                {
+                                    (order.status !== 'ĐÃ GIAO') &&
                                     <td className="text-center text-xl border-[1px] p-2 py-4"><button onClick={() => handleSelect(order)}>Cập nhật</button></td>
+                                }
+                                {
+                                    order.status === 'ĐÃ GIAO' && currentUser.is_shipper  && null  
+                                    
                                 }
                             </tr>
                            ))
@@ -209,7 +216,11 @@ const OrderList = () => {
           }
              {
               ((toggle && !currentUser.is_shipper) && modal === 'rating') && <>
+              
                 <div className="z-[52] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-[1px] rounded-lg bg-white p-4 w-[600px]">
+                {
+                  error && <p className="bg-red-500 w-full text-white font-medium text-2xl text-center mb-1 py-2 rounded-mdr">Bạn đã đánh giá shipper này.</p>
+                }
                     <h1 className="text-2xl text-center font-bold">Đánh giá</h1>
                     <StarRatings
                         changeRating={changeRating}

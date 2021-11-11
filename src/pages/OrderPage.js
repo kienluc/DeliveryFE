@@ -8,6 +8,7 @@ const OrderPage = () => {
     const [shippers, setShippers] = useState([])
     const [services, setServices] = useState([])
     const [categories, setCategories] = useState([])
+    const [isSuccess, setIsSuccess] = useState(null)
     const currentUser = useSelector(state => state.userLogin.userInfo)
     const getShippers = async () => {
         const response = await API.get(endpoints["shipperRegister"])
@@ -49,6 +50,7 @@ const OrderPage = () => {
         
         const token = localStorage.getItem('token')
         try {
+            
             const data = new FormData()
             for (let k in order) {
                 data.append(k, order[k])
@@ -65,9 +67,10 @@ const OrderPage = () => {
                 order: response.data.id,
                 ...receiver
             })
-            console.log(response2)
-            
+           
+            setIsSuccess(true)
         } catch (error) {
+            setIsSuccess(false)
             console.log(error.response)
         }
 
@@ -80,6 +83,13 @@ const OrderPage = () => {
         <div className="order-page">
             <Navbar />
             <form className="order-form">
+                {
+                    isSuccess === true && <div className="bg-green-600 w-full text-white font-medium text-2xl text-center mb-1 py-2 rounded-md ">Tạo đơn hàng thành công</div> 
+                    
+                }
+                {
+                    isSuccess === false && <div className="bg-red-500 w-full text-white font-medium text-2xl text-center mb-1 py-2 rounded-md ">Có lỗi xảy ra</div>
+                }
                 <div className="order-item">
                     <label>Tên khách hàng</label>
                     <input className="order-input" placeholder="Nhập họ tên" name="customer_received" onChange={handleReceiverChange} />
@@ -96,28 +106,30 @@ const OrderPage = () => {
                     <label>Địa chỉ giao hàng</label>
                     <input className="order-input" placeholder="Nhập địa chỉ" name="ship_address"  onChange={handleChange}/>
                 </div>
+                
                 <div className="order-item">
                     <label>Loại hàng hóa</label>
-                    <select className="payment" name="product_cate" onChange={handleChange}>
-                           {
-                                categories.map(cate => (<option value={cate.id}>{cate.name}</option>))
-                           }
+                    <select name="product_cate" onChange={handleChange} defaultValue="1" className="w-full cursor-pointer text-xl border-[1px] border-gray-300 py-4 rounded-xl" required>
+                        {
+                            categories.map(cate => (<option value={cate.id}>{cate.name}</option>))
+                        }
                     </select>
                 </div>
                 <div className="order-item">
-                    <label>Loại dịch vụ</label>
-                    <select className="payment" name="service_cate" onChange={handleChange}>
-                            {
-                                services.map(ser => (<option value={ser.id}>{ser.name}</option>))
-                            }
+                    <label>Dịch vụ</label>
+                    <select name="service_cate" onChange={handleChange} defaultValue="1" className="w-full cursor-pointer text-xl border-[1px] border-gray-300 py-4 rounded-xl" required>
+                        {
+                            services.map(ser => (<option value={ser.id}>{ser.name}</option>))
+                        }
                     </select>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '2rem 0'}}>
                     
-                    <div className="payment-method">
-                        <label>Thanh toán</label>
-                        <select className="payment" name="pay_method" onChange={handleChange}>
-                            <option value={0}>Zalo</option>
+                    
+                        <div className="order-item">
+                        <label>Loại hàng hóa</label>
+                        <select name="pay_method" onChange={handleChange} defaultValue="2" className="w-full cursor-pointer text-xl border-[1px] border-gray-300 py-4 rounded-xl" required>
+                        <option value={0}>Zalo</option>
                             <option value={1}>Momo</option>
                             <option value={2}>Thanh toán khi giao hàng</option>
                         </select>

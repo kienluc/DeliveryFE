@@ -11,13 +11,13 @@ const Profile = () => {
             const token = localStorage.getItem('token')
             const response2 = await API.get(endpoints['shipperRegister'])
             const cur = response2.data.results.filter(res => res.id === user.id)[0]
-            console.log(cur)
-            const response = await API.get(`${endpoints['shipperRegister']}${cur.id}/average-rate/`, {
+       
+            const response = await API.get(`${endpoints['shipperRegister']}${cur?.id}/average-rate/`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
-           console.log(response)
+           console.log(response2)
             setAvg(response.data.average)
            
         } catch (error) {
@@ -40,7 +40,7 @@ const Profile = () => {
                 </div>
                 <p className="font-medium text-2xl mb-4">Username: {user.username}</p>
                 <p className="font-medium text-2xl mb-4">Họ tên: {user.last_name} {user.first_name}</p>
-                <p className="font-medium text-2xl mb-4">Giới tính: {user.gender === "0" ? 'Nam' : user.gender === "1" ? "Nữ" : 'Khác'}</p>
+                <p className="font-medium text-2xl mb-4">Giới tính: {user.gender === "Male" ? 'Nam' : user.gender === "Female" ? "Nữ" : 'Khác'}</p>
                 <p className="font-medium text-2xl mb-4">Email: {user.email}</p>
                 <p className="font-medium text-2xl mb-4">Số điện thoại: {user.phone}</p>
                 {

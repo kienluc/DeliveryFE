@@ -22,8 +22,10 @@ const PostsList = () => {
             console.log(error.response)
         }
     }
+  
     useEffect(() => {
         getPosts()
+      
     }, [])
     return (
         <div>

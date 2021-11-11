@@ -23,6 +23,12 @@ const UserPostList = () => {
             console.log(error.response)
         }
     }
+    const handleFilter = (post) => {
+        setPosts(posts.filter(p => p.id !== p.id))
+    }
+    const handleUpdate = (post) => {
+        setPosts(posts.map(p => p.id === post.id ? post : p))
+    }
     useEffect(() => {
         getPosts()
     }, [currentUser])
@@ -32,7 +38,7 @@ const UserPostList = () => {
             <div className="mx-auto max-w-[1100px]">
                 {
                     posts.map((post) => (
-                       <Post user={currentUser} post={post} />
+                       <Post user={currentUser} post={post} onFilter={handleFilter} onUpdate={handleUpdate} />
                     ))
                 }
             </div>
