@@ -10,7 +10,7 @@ const Profile = () => {
         try {
             const token = localStorage.getItem('token')
             const response2 = await API.get(endpoints['shipperRegister'])
-            const cur = response2.data.results.filter(res => res.id === user.id)[0]
+            const cur = response2.data.filter(res => res.id === user.id)[0]
        
             const response = await API.get(`${endpoints['shipperRegister']}${cur?.id}/average-rate/`, {
                 headers: {

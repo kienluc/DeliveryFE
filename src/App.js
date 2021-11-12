@@ -9,12 +9,13 @@ import PostsList from './pages/PostsList';
 import UserPostList from './pages/UserPostList';
 import OrderList from './pages/OrderList';
 import Profile from './pages/Profile';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ProtectedRoute from './routes/ProtectedRoute';
 
 function App() {
   const dispatch = useDispatch()
+  const history = useHistory()
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -22,6 +23,7 @@ function App() {
       .then((res) => {
         
         dispatch(login(res.data))
+        history.goBack()
       })
       .catch(error => {
         console.log(error)

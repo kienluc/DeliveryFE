@@ -16,7 +16,7 @@ const PostsList = () => {
                     "Authorization": `Bearer ${token}`
                   },
             })
-            setPosts(response.data.results)
+            setPosts(response.data)
             console.log(response.data)
         } catch (error) {
             console.log(error.response)

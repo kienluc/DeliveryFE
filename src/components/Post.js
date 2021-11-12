@@ -121,7 +121,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
                     "Authorization": `Bearer ${token}`
                 }
             })
-  
+            onFilter(post)
             setInfo({})
          
         } catch (error) {
@@ -133,7 +133,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
             const token = localStorage.getItem('token')
             const response = await API.get(`${endpoints["post"]}${post.id}/show-auction/`, {
                 headers: {
-                    "Content-type": "multipart/form-data",
+                    // "Content-type": "multipart/form-data",
                     "Authorization": `Bearer ${token}`
                   },
             })
@@ -144,44 +144,49 @@ const Post = ({post, user, onFilter, onUpdate}) => {
         }
     }
     const createOrder = async (auction) => {
+    
         const token = localStorage.getItem('token')
+        
         try {
-           await API.post(`${endpoints["auction"]}${auction}/confirm-auction/`, {
+          await API.patch(`${endpoints["auction"]}${auction}/confirm-auction/`,{}, {
                 headers: {
-                    "Content-type": "multipart/form-data",
+                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 }
             })
             try {
-                await API.post(`${endpoints["post"]}${post.id}/create-order/`, {
+                await API.post(`${endpoints["post"]}${post.id}/create-order/`,{}, {
                     headers: {
-                        "Content-type": "multipart/form-data",
+                       
+                        "Content-Type": "multipart/form-data",
                         "Authorization": `Bearer ${token}`
                     }
                 })
                 alert('Tạo đơn hàng thành công !')
                 onFilter(post)
+                try {
+                    await API.post(`${endpoints["post"]}${post.id}/hide-post/`,{}, {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                            "Authorization": `Bearer ${token}`
+                        }
+                    })
+                } catch (error) {
+                    console.log(error.response)
+                }
             } catch (error) {
-                console.log(error)
+                console.log(error.response)
             }
             
         } catch (error) {
             console.log(error.response)
         }
-        try {
-            await API.post(`${endpoints["post"]}${post.id}/hide-post/`, {}, {
-                headers: {
-                    "Content-type": "multipart/form-data",
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-        } catch (error) {
-            console.log(error.response)
-        }
+
+      
+      
     }
     useEffect(() => {
         getPostAuction()
-        console.log(post)
     }, [])
     return (
         <div  className=" mb-8 border-[1px] border-gray-300 border-black p-4 rounded-lg">

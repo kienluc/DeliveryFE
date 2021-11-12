@@ -12,13 +12,19 @@ const OrderPage = () => {
     const currentUser = useSelector(state => state.userLogin.userInfo)
     const getShippers = async () => {
         const response = await API.get(endpoints["shipperRegister"])
-        setShippers(response.data.results)
+        setShippers(response.data)
     }
     const getServicesAndCategories = async () => {
-        const response = await API.get(endpoints["category"])
-        const response2 = await API.get(endpoints["service"])
-        setServices(response2.data.results)
-        setCategories(response.data.results)
+        try {
+            const response = await API.get(endpoints["category"])
+            const response2 = await API.get(endpoints["service"])
+            setServices(response2.data)
+            setCategories(response.data)
+        
+        } catch (error) {
+            console.log(error.response)
+        }
+
     }
     const handleChange = (event) => {
         if (event.target.name === 'product_cate' || event.target.name === 'service_cate' || event.target.name === 'pay_method') {
@@ -111,7 +117,7 @@ const OrderPage = () => {
                     <label>Loại hàng hóa</label>
                     <select name="product_cate" onChange={handleChange} defaultValue="1" className="w-full cursor-pointer text-xl border-[1px] border-gray-300 py-4 rounded-xl" required>
                         {
-                            categories.map(cate => (<option value={cate.id}>{cate.name}</option>))
+                            categories?.map(cate => (<option value={cate.id}>{cate.name}</option>))
                         }
                     </select>
                 </div>
@@ -119,7 +125,7 @@ const OrderPage = () => {
                     <label>Dịch vụ</label>
                     <select name="service_cate" onChange={handleChange} defaultValue="1" className="w-full cursor-pointer text-xl border-[1px] border-gray-300 py-4 rounded-xl" required>
                         {
-                            services.map(ser => (<option value={ser.id}>{ser.name}</option>))
+                            services?.map(ser => (<option value={ser.id}>{ser.name}</option>))
                         }
                     </select>
                 </div>

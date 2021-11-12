@@ -13,8 +13,8 @@ const Post = () => {
     const getServicesAndCategories = async () => {
         const response = await API.get(endpoints["category"])
         const response2 = await API.get(endpoints["service"])
-        setCategories(response.data.results)
-        setServices(response2.data.results)
+        setCategories(response.data)
+        setServices(response2.data)
     }
     const handleChange = (event) => {
         if (event.target.name === 'product_cate' || event.target.name === 'service_cate' || event.target.name === 'pay_method') {
@@ -49,6 +49,7 @@ const Post = () => {
                   },
             })
             setIsSuccess(true)
+            setPost({})
         } catch (error) {
             setIsSuccess(false)
             console.log(error.response)

@@ -34,7 +34,7 @@ const Login = ({handleActive}) => {
         API.post(endpoints["login"], data, { headers: { 'Content-type': 'application/json' } })
         .then(res => {
             localStorage.setItem('token', res.data.access_token)
-            history.push('/')
+            history.goBack()
             API.get(endpoints["currentUser"], { headers: { 'Content-type': 'application/json', 'Authorization': `Bearer ${res.data.access_token}` } })
             .then(res => {
                 dispatch(login(res.data))
