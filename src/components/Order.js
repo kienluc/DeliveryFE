@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import StarRatings from 'react-star-ratings';
 import API, {endpoints} from '../API'
-const Order = ({order, currentUser, updateOrder}) => {
+const Order = ({order, currentUser, updateOrder, index}) => {
     const [toggle, setToggle] = useState(false)
     const [modal, setModal] = useState("")
     const [error, setError] = useState(null)
@@ -48,7 +48,7 @@ const Order = ({order, currentUser, updateOrder}) => {
             console.log(response)
             handleToggle()
             setInfo({})
-            
+            updateOrder(response.data)
         } catch (error) {
             console.log(error.response)
         }
@@ -100,7 +100,7 @@ const Order = ({order, currentUser, updateOrder}) => {
     }
     return (
       <>
-              <tr className="mb-4">
+              <tr className={"mb-4 " + index && index % 2 === 0 ? "" : "bg-gray-200"}>
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.id}</td>
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.customer.username}</td>
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.pickup_address}</td>
@@ -109,15 +109,15 @@ const Order = ({order, currentUser, updateOrder}) => {
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.service_cate?.name}</td>
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.total_price}</td>
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.pay_method}</td>
-                                <td className="text-center text-xl border-[1px] p-2 py-4">{order.status}</td>
+                                <td className="text-center text-xl border-[1px] p-2 py-4 font-medium">{order.status}</td>
                                 <td className="text-center text-xl border-[1px] p-2 py-4">{order.shipper.username}</td>
                                 {
                                     (order.status === 'ĐÃ GIAO' &&  !currentUser.is_shipper) &&
-                                    <td className="text-center text-xl border-[1px] p-2 py-4"><button onClick={() => handleRatingModal(order)}>Đánh giá</button></td>                                    
+                                    <td className="text-center text-xl border-[1px] p-2 py-4"><button className="bg-[#f26522] text-white px-2 py-2 font-medium" onClick={() => handleRatingModal(order)}>Đánh giá</button></td>                                    
                                 }
                                 {
                                     (order.status !== 'ĐÃ GIAO') &&
-                                    <td className="text-center text-xl border-[1px] p-2 py-4"><button onClick={() => handleSelect(order)}>Cập nhật</button></td>
+                                    <td className="text-center text-xl border-[1px] p-2 py-4"><button className="bg-[#f26522] text-white px-2  py-2 font-medium" onClick={() => handleSelect(order)}>Cập nhật</button></td>
                                 }
                                 {
                                     order.status === 'ĐÃ GIAO' && currentUser.is_shipper  && null  
@@ -174,6 +174,7 @@ const Order = ({order, currentUser, updateOrder}) => {
                   error && <p className="bg-red-500 w-full text-white font-medium text-2xl text-center mb-1 py-2 rounded-mdr">Bạn đã đánh giá shipper này.</p>
                 }
                     <h1 className="text-2xl text-center font-bold">Đánh giá</h1>
+                    <div className="text-center">
                     <StarRatings
                         changeRating={changeRating}
                         starRatedColor="#F7DD7C"
@@ -183,6 +184,7 @@ const Order = ({order, currentUser, updateOrder}) => {
                         starDimension="25px"
                         starSpacing="2px"
                     />
+                    </div>
                     <div className="flex justify-around mt-8">
                         <button className="p-4 text-xl font-medium text-[#f26522] border-2 border-[#f26522]" onClick={handleToggle}>Hủy</button>
                         <button className="p-4 text-xl font-medium text-white bg-[#f26522]" onClick={handleRating}>Xác nhận</button>

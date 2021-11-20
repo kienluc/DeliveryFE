@@ -34,7 +34,7 @@ const Profile = () => {
     return (
         <div>
             <Navbar />
-            <div className="max-w-[1100px] mx-auto border-2 border-purple-400">
+            <div className="max-w-[1100px] mx-auto border-2 shadow-lg">
                 <div className="w-[100px]">
                     <img src={user.avatar} alt="avatar" />
                 </div>

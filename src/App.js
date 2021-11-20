@@ -12,7 +12,7 @@ import Profile from './pages/Profile';
 import { BrowserRouter, Route, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ProtectedRoute from './routes/ProtectedRoute';
-
+import BackToTop from './components/BackToTop';
 function App() {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -45,6 +45,7 @@ function App() {
      window.location.href = 'http://127.0.0.1:8000/admin'; 
      return null;
 }}/>
+    <BackToTop />
       </div>
     </BrowserRouter>
   );

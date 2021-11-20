@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import logo from "../assets/images/logo.png"
 import sublogo from "../assets/images/sublogo.png"
-import { BiChevronDown } from "react-icons/bi";
+import { BiChevronDown, BiUser, BiStore, BiHighlight, BiLogOut } from "react-icons/bi";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/actions/authActions';
 import SearchBar from './SearchBar';
@@ -109,10 +109,32 @@ const Navbar = ({onInputChange, onGetOrder}) => {
                    {
                        toggle &&  
                        <div className="absolute h-[300px] w-[300px] right-0 flex flex-col text-center p-4 shadow-md justify-between z-50 bg-gray-200">
-                           <Link to="/my-account" className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300">Thông tin cá nhân</Link>
-                           <Link to="/my-posts" className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300">Bài đăng</Link>
-                           <Link to="/my-orders" className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300">Đơn hàng</Link>
-                           <button className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300" onClick={handleLogout}>Đăng xuất</button>
+                           <Link to="/my-account" className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300">
+                               <div className="flex items-center justify-center">
+                                   <BiUser className="text-4xl mr-4" />
+                                   <p>Thông tin cá nhân</p>
+                               </div>
+                           </Link>
+                           {
+                               user?.is_shipper ? null : <Link to="/my-posts" className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300">
+                               <div className="flex items-center justify-center">
+                                   <BiHighlight className="text-4xl mr-4" />
+                                   <p>Bài đăng</p>
+                               </div>
+                                </Link>
+                           }
+                            <Link to="/my-orders" className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300">
+                               <div className="flex items-center justify-center">
+                                   <BiStore className="text-4xl mr-4" />
+                                   <p>Đơn hàng</p>
+                               </div>
+                           </Link>
+                           <button className="text-2xl font-medium p-2 border-b-[1px] border-gray-300 hover:bg-gray-300" onClick={handleLogout}>
+                               <div className="flex items-center justify-center">
+                                   <BiLogOut className="text-4xl mr-4"/>
+                                   <p>Đăng xuất</p>
+                               </div>
+                           </button>
                            <p className="text-2xl font-medium p-2">Username: {user?.username}</p>
                        </div>
                    }

@@ -11,7 +11,7 @@ import feature1 from '../assets/images/feature1.png'
 import feature2 from '../assets/images/feature2.png'
 import feature3 from '../assets/images/feature3.png'
 import feature4 from '../assets/images/feature4.png'
-
+import {FaFacebook, FaInstagram, FaYoutube, FaTwitter} from "react-icons/fa"
 import API, {endpoints} from '../API'
 
 import TrackingDetail from '../components/TrackingDetail';
@@ -42,7 +42,7 @@ const Home = () => {
             setOrder(response.data)
             handleOpenModal()
         } catch (error) {
-            console.log(error)
+            alert('Không tìm thấy đơn hàng !')
         }
     }
 
@@ -79,34 +79,46 @@ const Home = () => {
                     </p>
                 </div>
             </div>
-            <div className="partners">
-                <Slider {...settings} >
-                    <div className="partner-item" >
-                        <img src={partner1} alt='partner-item' />
-                    </div>
-                    <div className="partner-item" >
-                        <img src={partner2} alt='partner-item' />
-                    </div>
-                    <div className="partner-item" >
-                        <img src={partner1} alt='partner-item' />
-                    </div>
-                    <div className="partner-item" >
-                        <img src={partner2} alt='partner-item' />
-                    </div>
-                    <div className="partner-item" >
-                        <img src={partner1} alt='partner-item' />
-                    </div>
-                    <div className="partner-item" >
-                        <img src={partner2} alt='partner-item' />
-                    </div>
-                    <div className="partner-item" >
-                        <img src={partner1} alt='partner-item' />
-                    </div>
-                    <div className="partner-item" >
-                        <img src={partner2} alt='partner-item' />
-                    </div>
-                </Slider>
+            <div className="flex justify-around bg-black text-gray-400 py-10 mt-5">
+            <div className="">
+                <h1 className="text-2xl mb-3">Thông Tin Liên Hệ</h1>
+                <p className="text-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                    </svg>          
+                    371 Nguyễn Kiệm, phường 3, quận Gò Vấp, Tp.HCM
+                </p>
+                <p className="text-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                    ghnexpress@mail.com
+                </p>
+                <p className="text-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                    0912345678 / 0904123321
+                </p>
+                <p></p>
             </div>
+            <div className="social">
+                <h1 className="text-2xl mb-3">Mạng Xã Hội</h1>
+                <p className="text-xl flex items-center">
+                    <FaFacebook className="mr-2" /> facebook.com/ghnexpress
+                </p>
+                <p className="text-xl flex items-center">
+                    <FaInstagram  className="mr-2"/> @ghn_express
+                </p>
+                <p className="text-xl flex items-center">
+                    <FaYoutube className="mr-2"/> youtube.com/ghnexpress
+                </p>
+                <p className="text-xl flex items-center">
+                    <FaTwitter className="mr-2"/> @ghn_express
+                </p>
+            </div>
+        </div>
             <TrackingDetail order={order} modal={modal} onModal={handleOpenModal} />
         </div>
     )

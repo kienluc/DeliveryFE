@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import API, { endpoints } from '../API'
-
+import Spinner from './Spinner'
 const Post = ({post, user, onFilter, onUpdate}) => {
     const [price, setPrice] = useState(null)
     const [auctions, setAuctions] = useState([])
     const [selectedPost, setSelectedPost] = useState({})
     const [toggle, setToggle] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [info, setInfo] = useState({})
     const [edit, setEdit] = useState("")
     const createAuction = async () => {
@@ -146,7 +147,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
     const createOrder = async (auction) => {
     
         const token = localStorage.getItem('token')
-        
+        setLoading(true)
         try {
           await API.patch(`${endpoints["auction"]}${auction}/confirm-auction/`,{}, {
                 headers: {
@@ -162,6 +163,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
                         "Authorization": `Bearer ${token}`
                     }
                 })
+                setLoading(false)
                 alert('Tạo đơn hàng thành công !')
                 onFilter(post)
                 try {
@@ -171,27 +173,30 @@ const Post = ({post, user, onFilter, onUpdate}) => {
                             "Authorization": `Bearer ${token}`
                         }
                     })
+                    setLoading(false)
                 } catch (error) {
+                    setLoading(false)
                     console.log(error.response)
                 }
             } catch (error) {
+                setLoading(false)
                 console.log(error.response)
             }
             
         } catch (error) {
+            setLoading(false)
             console.log(error.response)
         }
 
-      
       
     }
     useEffect(() => {
         getPostAuction()
     }, [])
     return (
-        <div  className=" mb-8 border-[1px] border-gray-300 border-black p-4 rounded-lg">
+        <div  className=" mb-8 border-[1px] border-gray-300 border-[#f26522] p-4 rounded-lg">
                             <div key={post.id} className="border-[1px] border-gray-300 p-2 mb-4 rounded-lg mr-4 flex justify-between">
-                               <div>
+                               <div className="p-2">
                                     <p className="text-2xl font-semibold mb-4">Người tạo: <span className="text-2xl font-normal">{post.creator.username}</span></p>
                                     <p className="text-2xl font-semibold mb-4">Địa chỉ lấy hàng: {post.pickup_address}</p>
                                     <p className="text-2xl font-semibold mb-4">Địa chỉ giao hàng: {post.ship_address}</p>
@@ -208,7 +213,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
                                                         </>
                               }
                             </div>
-                            {user?.is_shipper ? <p className="text-2xl font-semibold mb-4">Nhập giá</p> : <p className="text-2xl font-semibold">Danh sách đấu giá</p>}
+                            {user?.is_shipper ? <p className="text-2xl font-semibold mb-4">Nhập giá</p> : <p className="text-2xl font-semibold text-white bg-[#f26522] p-2 rounded-md w-[fit-content]">Danh sách đấu giá</p>}
                             {user?.is_shipper ? <>
                                                     <div>
                                                     {
@@ -251,25 +256,29 @@ const Post = ({post, user, onFilter, onUpdate}) => {
                                                 </>
                                                 :
                                                 <div>
-                                                    {
+                                                   {
+                                                       auctions.length !== 0 
+                                                       ?
                                                         auctions.map(au => (
 
-                                                        <div className="flex items-center justify-around text-xl">
+                                                        <div className="flex items-center justify-around text-xl border-b-2">
                                                             <div className="flex">
                                                                 <div className="w-[35px] overflow-hidden rounded-full  mr-4">
                                                                     <img src={`http://127.0.0.1:8000${au.shipper.avatar}`} alt='avatar' />
                                                                 </div>
                                                                 <div>
-                                                                    <p>{au.shipper.username}</p>
-                                                                    <p>{au.ship_cost}</p>
-                                                                    <p>{new Date(au.updated_date).toLocaleString()}</p>
+                                                                    <p className="mb-2 text-xl font-medium">Shipper: {au.shipper.username}</p>
+                                                                    <p className="mb-2 text-xl font-medium">Phí: {au.ship_cost}</p>
+                                                                    <p className="mb-2 text-xl font-medium">Ngày: {new Date(au.updated_date).toLocaleString()}</p>
                                                                 </div>
                                                             </div>
                                                             <div>
-                                                                <button className="bg-[#f26522] p-2 text-white font-medium" onClick={() => createOrder(au.id)}>Chọn</button>
+                                                                <button className="bg-[#f26522] p-2 text-white font-medium" onClick={() => createOrder(au.id)}>{loading ? <Spinner /> : <p>Chọn</p>}</button>
                                                             </div>
                                                         </div>))
-                                                    }
+                                                        :
+                                                        <div className="text-center font-medium text-2xl">Chưa có đấu giá</div>
+                                                   }
                                                 </div>
                                             }
                                          {

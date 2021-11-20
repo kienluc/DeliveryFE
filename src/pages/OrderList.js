@@ -34,7 +34,7 @@ const OrderList = () => {
     return (
         <div className="max-w-[1100px] mx-auto">
             <Navbar />
-                <h1 className="font-bold text-2xl">Danh sách đơn hàng</h1>
+                <h1 className="font-bold text-2xl text-white bg-[#F26522] w-[fit-content] px-4 py-2 rounded-md mb-8">Danh sách đơn hàng</h1>
             <div>
                 <table>
                     <thead className="border-t-[2px] border-b-[2px] border-black">
@@ -55,9 +55,10 @@ const OrderList = () => {
                     </thead>
                     <tbody>
                        {
-                           orders.map(order => (
-                               <Order order={order} currentUser={currentUser} updateOrder={updateOrder}/>
-                          
+                           orders.map((order, index) => (
+                              
+                                   <Order order={order} currentUser={currentUser} updateOrder={updateOrder} index={index}/>  
+                                                 
                            ))
                        }
                     </tbody>
