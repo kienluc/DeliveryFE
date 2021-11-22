@@ -37,9 +37,9 @@ const Navbar = ({onInputChange, onGetOrder}) => {
                                 <img src={sublogo} alt="sub-logo"/>
                             </div>
                             <div className="sub-menu-item-content">
-                                <h3 className="sub-menu-item-title">GHN Express</h3>
+                                <h3 className="sub-menu-item-title">Normal Express</h3>
                                 <p className="sub-menu-item-description">
-                                    Dịch vụ giao hàng thương mại điện tử, giao hàng toàn quốc, miễn phí thu hộ COD, miễn phí giao hàng, miễn phí trả hàng.
+                                    Dịch vụ giao hàng phổ thông với chi phí và thời gian giao hàng phù hợp.
                                 </p>
                             </div>
                             </Link>
@@ -50,9 +50,9 @@ const Navbar = ({onInputChange, onGetOrder}) => {
                                 <img src={sublogo} alt="sub-logo"/>
                             </div>
                             <div className="sub-menu-item-content">
-                                <h3 className="sub-menu-item-title">GHN Express</h3>
+                                <h3 className="sub-menu-item-title">Saving Express</h3>
                                 <p className="sub-menu-item-description">
-                                    Dịch vụ giao hàng thương mại điện tử, giao hàng toàn quốc, miễn phí thu hộ COD, miễn phí giao hàng, miễn phí trả hàng.
+                                    Dịch vụ giao hàng tiết kiệm khi nhu cầu về thời gian giao hàng linh hoạt và giá cả phù hợp.
                                 </p>
                             </div>
                             </Link>
@@ -63,9 +63,9 @@ const Navbar = ({onInputChange, onGetOrder}) => {
                                 <img src={sublogo} alt="sub-logo"/>
                             </div>
                             <div className="sub-menu-item-content">
-                                <h3 className="sub-menu-item-title">GHN Express</h3>
+                                <h3 className="sub-menu-item-title">FAST Express</h3>
                                 <p className="sub-menu-item-description">
-                                    Dịch vụ giao hàng thương mại điện tử, giao hàng toàn quốc, miễn phí thu hộ COD, miễn phí giao hàng, miễn phí trả hàng.
+                                    Dịch vụ giao hàng tốc độ và độc đáo của GHN
                                 </p>
                             </div>
                             </Link>
