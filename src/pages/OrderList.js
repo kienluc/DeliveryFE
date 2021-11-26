@@ -22,7 +22,7 @@ const OrderList = () => {
             setOrders(response.data)
             
         } catch (error) {
-            console.log(error.response)
+            
         }
     }
     const updateOrder = (order) => {

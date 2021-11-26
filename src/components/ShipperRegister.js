@@ -63,7 +63,7 @@ const ShipperRegister = () => {
      
                 } catch (err) {
                     setIsSuccess(false)
-                    console.log(err.response.data)
+                    
                     let arr = [];
                     for (const [key, value] of Object.entries(err.response.data)) {
                         let val = value[0]

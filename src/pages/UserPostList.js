@@ -16,12 +16,12 @@ const UserPostList = () => {
                     "Authorization": `Bearer ${token}`
                   },
             })
-            console.log(response)
+            
             const arr = response.data.filter(post => post.creator.id === currentUser.id)
             setPosts(arr)
             
         } catch (error) {
-            console.log(error)
+            
         }
     }
     const handleFilter = (post) => {

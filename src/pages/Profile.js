@@ -17,11 +17,11 @@ const Profile = () => {
                     'Authorization': `Bearer ${token}`
                 }
             })
-           console.log(response2)
+           
             setAvg(response.data.average)
            
         } catch (error) {
-            console.log(error)
+            
             
         }
     }

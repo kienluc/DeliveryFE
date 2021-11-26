@@ -52,7 +52,7 @@ const Post = () => {
             setPost({})
         } catch (error) {
             setIsSuccess(false)
-            console.log(error.response)
+            
         }
     }
     useEffect(() => {

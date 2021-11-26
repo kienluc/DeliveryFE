@@ -32,7 +32,7 @@ const Order = ({order, currentUser, updateOrder, index}) => {
         setRating(newRating)
     }
     const UserUpdate = async () => {
-        console.log(selectedOrder)
+        
         try {
             const token = localStorage.getItem('token')
             const data = new FormData()
@@ -45,12 +45,12 @@ const Order = ({order, currentUser, updateOrder, index}) => {
                     "Authorization": `Bearer ${token}`
                 }
             })
-            console.log(response)
+            
             handleToggle()
             setInfo({})
             updateOrder(response.data)
         } catch (error) {
-            console.log(error.response)
+            
         }
     }
     const ShipperUpdate = async () => {
@@ -66,12 +66,12 @@ const Order = ({order, currentUser, updateOrder, index}) => {
             })
             updateOrder(response.data)
             alert('Cập nhật trạng thái giao hàng thành công !')
-            console.log(response)
+            
             handleToggle()
             setInfo({})
           
         } catch (error) {
-            console.log(error.response)
+            
         }
     }
     const handleRatingModal = (order) => {

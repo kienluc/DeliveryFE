@@ -22,7 +22,7 @@ const OrderPage = () => {
             setCategories(response.data)
         
         } catch (error) {
-            console.log(error.response)
+            
         }
 
     }
@@ -77,7 +77,7 @@ const OrderPage = () => {
             setIsSuccess(true)
         } catch (error) {
             setIsSuccess(false)
-            console.log(error.response)
+            
         }
 
     }

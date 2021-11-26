@@ -27,7 +27,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
                 response.data
             ])
         } catch (error) {
-            console.log(error.response)
+            
         }
     }
     const handleEditModal = (post) => {
@@ -74,7 +74,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
             setInfo({})
             setAuctions(auctions.map(auc => auc.id === response.data.id ? response.data : auc))
         } catch (error) {
-            console.log(error.response)
+            
         }
     }
 
@@ -90,7 +90,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
             setInfo({})
             setAuctions(auctions.filter(auc => auc.id !== auct.id))
         } catch (error) {
-            console.log(error.response)
+            
         }
     }
     const handleUserUpdate = async () => {
@@ -111,7 +111,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
             setInfo({})
             
         } catch (error) {
-            console.log(error)
+            
         }
     }
     const handleUserDelete = async (post) => {
@@ -126,7 +126,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
             setInfo({})
          
         } catch (error) {
-            console.log(error.response)
+            
         }
     }
     const getPostAuction = async () => {
@@ -141,7 +141,7 @@ const Post = ({post, user, onFilter, onUpdate}) => {
             setAuctions(response.data)
        
         } catch (error) {
-            console.log(error.response)
+            
         }
     }
     const createOrder = async (auction) => {
@@ -176,16 +176,16 @@ const Post = ({post, user, onFilter, onUpdate}) => {
                     setLoading(false)
                 } catch (error) {
                     setLoading(false)
-                    console.log(error.response)
+                    
                 }
             } catch (error) {
                 setLoading(false)
-                console.log(error.response)
+                
             }
             
         } catch (error) {
             setLoading(false)
-            console.log(error.response)
+            
         }
 
       

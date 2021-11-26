@@ -30,7 +30,7 @@ const Home = () => {
     const [order, setOrder] = useState({})
     const [modal, setModal] = useState(false)
     const handleChange = (event) => {
-        console.log(event.target.value)
+        
         setTrackingId(event.target.value)
     }
     const handleOpenModal = () => {
