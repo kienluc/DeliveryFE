@@ -36,16 +36,7 @@ const TrackingDetail = ({order, modal, onModal}) => {
                                 <td className="text-center">{order.total_price}</td>
                                 <td className="text-center">{order.pay_method}</td>
                                 <td className="text-center">{order.status}</td>
-                                {/* <td className="text-center">123</td>
-                                <td className="text-center">123</td>
-                                <td className="text-center">123</td>
-                                <td className="text-center">123</td>
-                                <td className="text-center">123</td>
-                                <td className="text-center">123</td>
-                                <td className="text-center">123</td>
-                                <td className="text-center">123</td>
-                                <td className="text-center">123</td>
-                                <td className="text-center">123</td> */}
+                               
                                 
                             </tr>
                         </tbody>
